@@ -249,6 +249,17 @@
     .quote-text.fade-out { animation: quoteFadeOut 0.4s ease forwards; }
 
     /* ===== FORM FIELDS ===== */
+    .field-error {
+      font-size: 12px;
+      color: #e53e3e;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .input-wrap input.is-invalid {
+      border-color: #e53e3e;
+      box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.12);
+    }
     .field-group {
       margin-bottom: 16px;
     }
@@ -368,6 +379,24 @@
     .btn-signin:hover  { background: #25695a; }
     .btn-signin:active { transform: scale(0.98); }
     .btn-signin:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    .btn-signin .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.45);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .btn-signin.loading .spinner { display: block; }
+    .btn-signin.loading .btn-arrow { display: none; }
 
     /* ===== OR CONTINUE WITH ===== */
     .or-row {
@@ -532,6 +561,12 @@
         </h2>
         <div class="card-title-divider"></div>
 
+        <!-- Rotating motivational quote -->
+        <div class="quote-area">
+          <p class="quote-text" id="quoteText"></p>
+          <span class="quote-author" id="quoteAuthor"></span>
+        </div>
+
         <!-- Login Form -->
         <form id="loginForm" novalidate>
 
@@ -550,6 +585,7 @@
                 required
               />
             </div>
+            <span class="field-error" id="emailError">Please enter a valid email address.</span>
           </div>
 
           <div class="field-group">
@@ -573,6 +609,7 @@
                 </svg>
               </button>
             </div>
+            <span class="field-error" id="passwordError">Please enter your password.</span>
           </div>
 
           <div class="remember-row">
@@ -584,8 +621,9 @@
           </div>
 
           <button type="submit" class="btn-signin" id="loginBtn">
-            Sign In
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <span class="btn-label">Sign In</span>
+            <span class="spinner" aria-hidden="true"></span>
+            <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <line x1="5" y1="12" x2="19" y2="12"/>
               <polyline points="12 5 19 12 12 19"/>
             </svg>
@@ -621,7 +659,7 @@
           <a href="#contact">Contact HR Team.</a>
         </div>
 
-        <div class="card-copyright">© 2024 WorkDesk. All rights reserved.</div>
+        <div class="card-copyright">© <span id="copyrightYear"></span> WorkDesk. All rights reserved.</div>
 
       </div>
     </div>
@@ -634,6 +672,9 @@
   <div class="login-toast" id="loginToast" role="status" aria-live="polite"></div>
 
   <script>
+    // ── Dynamic copyright year ────────────────────────────────────────────────
+    document.getElementById('copyrightYear').textContent = new Date().getFullYear();
+
     // ── Motivational Quotes (10 quotes, rotate every 20 minutes) ────────────
     var QUOTES = [
       { text: 'The only way to do great work is to love what you do.', author: 'Steve Jobs' },
@@ -654,6 +695,27 @@
     function renderHeroQuote(idx, animated) {
       var textEl   = document.getElementById('heroQuoteText');
       var authorEl = document.getElementById('heroQuoteAuthor');
+      if (!textEl || !authorEl) return;
+      var q = QUOTES[idx];
+      if (!animated) {
+        textEl.textContent   = '\u201C' + q.text + '\u201D';
+        authorEl.textContent = '\u2014 ' + q.author;
+        return;
+      }
+      textEl.classList.remove('fade-in');
+      textEl.classList.add('fade-out');
+      setTimeout(function () {
+        textEl.textContent   = '\u201C' + q.text + '\u201D';
+        authorEl.textContent = '\u2014 ' + q.author;
+        textEl.classList.remove('fade-out');
+        textEl.classList.add('fade-in');
+        setTimeout(function () { textEl.classList.remove('fade-in'); }, 600);
+      }, 400);
+    }
+
+    function renderCardQuote(idx, animated) {
+      var textEl   = document.getElementById('quoteText');
+      var authorEl = document.getElementById('quoteAuthor');
       if (!textEl) return;
       var q = QUOTES[idx];
       if (!animated) {
@@ -675,9 +737,11 @@
     function advanceQuote() {
       quoteIndex = (quoteIndex + 1) % QUOTES.length;
       renderHeroQuote(quoteIndex, true);
+      renderCardQuote(quoteIndex, true);
     }
 
     renderHeroQuote(quoteIndex, false);
+    renderCardQuote(quoteIndex, false);
 
     var msUntilNextSlot = QUOTE_INTERVAL_MS - (Date.now() % QUOTE_INTERVAL_MS);
     setTimeout(function () {
@@ -692,6 +756,34 @@
       toast.classList.add('show');
       setTimeout(function () { toast.classList.remove('show'); }, duration || 3000);
     }
+
+    // ── Inline field error helpers ────────────────────────────────────────────
+    function setFieldError(inputId, errorId, message) {
+      var input = document.getElementById(inputId);
+      var err   = document.getElementById(errorId);
+      if (!input || !err) return;
+      if (message) {
+        input.classList.add('is-invalid');
+        err.textContent   = message;
+        err.style.display = 'block';
+      } else {
+        input.classList.remove('is-invalid');
+        err.style.display = 'none';
+      }
+    }
+
+    function clearFieldErrors() {
+      setFieldError('email',    'emailError',    null);
+      setFieldError('password', 'passwordError', null);
+    }
+
+    // Clear inline error on input
+    document.getElementById('email').addEventListener('input', function () {
+      setFieldError('email', 'emailError', null);
+    });
+    document.getElementById('password').addEventListener('input', function () {
+      setFieldError('password', 'passwordError', null);
+    });
 
     // ── Load stored display name ─────────────────────────────────────────────
     var storedName = localStorage.getItem('workdesk_display_name');
@@ -717,7 +809,7 @@
       e.preventDefault();
       var email = document.getElementById('email').value.trim();
       if (!email) {
-        showToast('Enter your email address first, then click Forgot Password.');
+        setFieldError('email', 'emailError', 'Enter your email address first, then click Forgot Password.');
         return;
       }
       showToast('Password reset link sent to ' + email + '. Check your inbox.');
@@ -734,14 +826,22 @@
     // ── Login form handler ───────────────────────────────────────────────────
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault();
+      clearFieldErrors();
+
       var btn      = document.getElementById('loginBtn');
       var email    = document.getElementById('email').value.trim();
       var password = document.getElementById('password').value;
+      var valid    = true;
 
-      if (!email || !password) {
-        showToast('Please fill in all fields.');
-        return;
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setFieldError('email', 'emailError', 'Please enter a valid email address.');
+        valid = false;
       }
+      if (!password) {
+        setFieldError('password', 'passwordError', 'Please enter your password.');
+        valid = false;
+      }
+      if (!valid) return;
 
       // Derive a display name from the email (capitalize each word) and persist
       var namePart    = email.split('@')[0];
@@ -750,8 +850,10 @@
       }).join(' ');
       localStorage.setItem('workdesk_display_name', displayName);
 
-      btn.textContent = 'Signing in\u2026';
-      btn.disabled    = true;
+      var btnLabel = btn.querySelector('.btn-label');
+      if (btnLabel) btnLabel.textContent = 'Signing in\u2026';
+      btn.classList.add('loading');
+      btn.disabled = true;
 
       // Call the /api/auth endpoint; fall back to direct navigation on network error
       fetch('/api/auth', {
@@ -766,7 +868,8 @@
           window.location.href = 'dashboard.html';
         } else {
           showToast(data && data.message ? data.message : 'Invalid credentials. Please try again.');
-          btn.textContent = 'Sign In';
+          if (btnLabel) btnLabel.textContent = 'Sign In';
+          btn.classList.remove('loading');
           btn.disabled = false;
         }
       })
