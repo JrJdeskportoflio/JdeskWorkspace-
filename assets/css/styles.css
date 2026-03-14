@@ -457,24 +457,12 @@ img {
   flex-shrink: 0;
 }
 
-.stat-icon.green {
+.stat-icon.green,
+.stat-icon.yellow,
+.stat-icon.red,
+.stat-icon.blue {
   background: var(--primary-soft);
   color: var(--primary);
-}
-
-.stat-icon.yellow {
-  background: var(--accent-soft);
-  color: #C79A00;
-}
-
-.stat-icon.red {
-  background: #FDECEA;
-  color: var(--danger);
-}
-
-.stat-icon.blue {
-  background: #EBF4FF;
-  color: #2563EB;
 }
 
 .stat-icon svg {
