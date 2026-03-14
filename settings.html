@@ -583,8 +583,8 @@
                   <div class="settings-row-desc">Choose how time is displayed across the platform (clock, attendance logs, schedules).</div>
                 </div>
                 <div class="seg-control" role="group" aria-label="Time format">
-                  <button class="seg-btn active" id="fmt12" onclick="setTimeFormat('12h')">12-Hour</button>
-                  <button class="seg-btn" id="fmt24" onclick="setTimeFormat('24h')">24-Hour</button>
+                  <button class="seg-btn active" id="fmt12" aria-pressed="true" onclick="setTimeFormat('12h')">12-Hour</button>
+                  <button class="seg-btn" id="fmt24" aria-pressed="false" onclick="setTimeFormat('24h')">24-Hour</button>
                 </div>
               </div>
 
@@ -744,8 +744,10 @@
   // ── Time format ───────────────────────────────────────────
   function setTimeFormat(fmt) {
     localStorage.setItem('workdesk_time_format', fmt);
-    document.getElementById('fmt12').classList.toggle('active', fmt === '12h');
-    document.getElementById('fmt24').classList.toggle('active', fmt === '24h');
+    var btn12 = document.getElementById('fmt12');
+    var btn24 = document.getElementById('fmt24');
+    if (btn12) { btn12.classList.toggle('active', fmt === '12h'); btn12.setAttribute('aria-pressed', fmt === '12h' ? 'true' : 'false'); }
+    if (btn24) { btn24.classList.toggle('active', fmt === '24h'); btn24.setAttribute('aria-pressed', fmt === '24h' ? 'true' : 'false'); }
     showToast('Time format set to ' + (fmt === '12h' ? '12-hour' : '24-hour') + '.');
   }
   window.setTimeFormat = setTimeFormat;

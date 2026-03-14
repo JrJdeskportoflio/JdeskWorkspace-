@@ -850,9 +850,14 @@
     // Record AUX status change to localStorage (attendance footprint)
     var logs = JSON.parse(localStorage.getItem('workdesk_aux_log') || '[]');
     var now = new Date();
+    // Close out the previous entry with an endTime
+    if (logs.length > 0 && !logs[logs.length - 1].endTime) {
+      logs[logs.length - 1].endTime = now.toISOString();
+    }
     logs.push({
       status: status,
       startTime: now.toISOString(),
+      endTime: null,
       employee: localStorage.getItem('workdesk_display_name') || 'Unknown'
     });
     // Keep last 200 entries
