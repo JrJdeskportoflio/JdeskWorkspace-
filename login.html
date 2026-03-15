@@ -357,6 +357,55 @@
     }
 
     /* ===== SIGN IN BUTTON ===== */
+    @keyframes loginCardEntrance {
+      from { opacity: 0; transform: translateY(-50%) translateX(30px); }
+      to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+    }
+
+    @keyframes heroPanelEntrance {
+      from { opacity: 0; transform: translateX(-30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes logoEntrance {
+      from { opacity: 0; transform: translateY(-14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .top-logo {
+      animation: logoEntrance 0.45s cubic-bezier(0.16, 1, 0.3, 1) both 0.1s;
+    }
+
+    .login-hero-panel {
+      animation: heroPanelEntrance 0.55s cubic-bezier(0.16, 1, 0.3, 1) both 0.15s;
+    }
+
+    .login-card-wrapper {
+      animation: loginCardEntrance 0.55s cubic-bezier(0.16, 1, 0.3, 1) both 0.25s;
+    }
+
+    .hero-badge {
+      animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) both 0.4s;
+    }
+
+    @keyframes slideUpFade {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-heading {
+      animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) both 0.5s;
+    }
+
+    .hero-sub {
+      animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) both 0.6s;
+    }
+
+    .hero-quote-box {
+      animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) both 0.7s;
+    }
+
+    /* ===== SIGN IN BUTTON ===== */
     .btn-signin {
       width: 100%;
       padding: 13px;
@@ -372,11 +421,11 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
       margin-bottom: 18px;
     }
 
-    .btn-signin:hover  { background: #25695a; }
+    .btn-signin:hover  { background: #25695a; box-shadow: 0 4px 16px rgba(46, 125, 107, 0.38); }
     .btn-signin:active { transform: scale(0.98); }
     .btn-signin:disabled { opacity: 0.7; cursor: not-allowed; }
 
