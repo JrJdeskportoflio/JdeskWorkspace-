@@ -65,6 +65,20 @@ export async function onRequest(context) {
     // await env.DB.prepare(
     //   'INSERT INTO notifications (id, user_token, type, text, href, unread, created_at) VALUES (?,?,?,?,?,1,?)'
     // ).bind(id, token, type, text, href || '#', new Date().toISOString()).run();
+
+    // Publish to queue for async delivery (if queue binding is configured)
+    if (env.WORKDESK_QUEUE) {
+      await env.WORKDESK_QUEUE.send({
+        event:      'notification.created',
+        id,
+        user_token: token,
+        type,
+        text,
+        href:       href || '#',
+        created_at: new Date().toISOString(),
+      });
+    }
+
     return json({ ok: true, id, message: 'Notification created.' }, 201);
   }
 

@@ -115,6 +115,21 @@ export async function onRequest(context) {
     //   return new Response(JSON.stringify({ ok: true, reportId, downloadUrl: url }), { status: 200, headers: corsHeaders });
     // }
 
+    // Queue the report generation for background processing (if queue binding is configured)
+    if (env.WORKDESK_QUEUE) {
+      await env.WORKDESK_QUEUE.send({
+        event:     'report.generate',
+        reportId,
+        type,
+        format:    resolvedFormat,
+        orgId:     orgId || null,
+        dateFrom:  dateFrom || null,
+        dateTo:    dateTo || null,
+        filters:   filters || null,
+        queued_at: new Date().toISOString(),
+      });
+    }
+
     // Demo: return a stub response with simulated row counts
     const ROW_COUNTS = {
       hr_summary: 248, attendance: 1840, payroll: 248, leave: 248,

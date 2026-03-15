@@ -47,17 +47,30 @@ export async function onRequest(context) {
     if (path.endsWith('/run')) {
       const { period, count } = body || {};
       if (!period) return json({ ok: false, message: 'Pay period is required.' }, 400);
+      const employeeCount = count || 0;
       // TODO:
       //   1. Fetch all active employees for the period
       //   2. Compute basic pay, overtime, allowances, deductions per employee
       //   3. INSERT into payroll_ledger
       //   4. UPDATE status to 'Released'
       //   5. Send email notifications via env.EMAIL_SERVICE
+
+      // Queue the payroll run for background processing (if queue binding is configured)
+      if (env.WORKDESK_QUEUE) {
+        await env.WORKDESK_QUEUE.send({
+          event:     'payroll.run',
+          period,
+          count:     employeeCount,
+          token,
+          queued_at: new Date().toISOString(),
+        });
+      }
+
       return json({
         ok: true,
-        message: 'Payroll run initiated for ' + period + '. ' + (count || 0) + ' employees processed.',
+        message: 'Payroll run initiated for ' + period + '. ' + employeeCount + ' employees processed.',
         period,
-        count: count || 0,
+        count: employeeCount,
       }, 202);
     }
 

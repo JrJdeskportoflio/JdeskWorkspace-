@@ -4,7 +4,7 @@
 # Deploy: https://pages.cloudflare.com
 # Docs: https://developers.cloudflare.com/pages/
 
-name = "workdesk"
+name = "workdesk-worker"
 compatibility_date = "2024-01-01"
 # Use the latest Workers runtime for best performance on Cloudflare Pages Functions
 compatibility_flags = ["nodejs_compat"]
@@ -79,6 +79,27 @@ not_found_handling = "single-page-application"
 # [[r2_buckets]]
 # binding = "ATTACHMENTS"
 # bucket_name = "workdesk-attachments"
+
+# ── Cloudflare Queues ─────────────────────────────────────────
+# WorkDesk uses a Queue to offload background jobs:
+# notifications, payroll runs, and report generation.
+#
+# Setup:
+#   npx wrangler queues create workdesk-queue
+#
+# Then uncomment the bindings below.
+# The producer binding lets any Pages Function publish messages;
+# the consumer block configures this Worker to pull and process them.
+#
+# [[queues.producers]]
+# binding = "WORKDESK_QUEUE"
+# queue   = "workdesk-queue"
+#
+# [[queues.consumers]]
+# queue             = "workdesk-queue"
+# max_batch_size    = 10
+# max_batch_timeout = 5
+# max_retries       = 3
 
 # ── AI Binding (optional) ─────────────────────────────────────
 # Enable Cloudflare Workers AI for the AI Assistant page.
