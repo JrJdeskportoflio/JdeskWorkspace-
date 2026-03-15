@@ -6,13 +6,13 @@
 #        npx wrangler queues create workdesk-queue
 #   2. Fill in your database_id and bucket_name below.
 #   3. Deploy this worker:
-#        cd queue-consumer && wrangler deploy
+#        cd workers/queues && wrangler deploy
 #
 # The Pages project (parent wrangler.toml) acts as the PRODUCER.
 # This worker acts as the CONSUMER, processing background jobs.
 
 name              = "workdesk-queue-consumer"
-main              = "index.js"
+main              = "job-consumer.js"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 

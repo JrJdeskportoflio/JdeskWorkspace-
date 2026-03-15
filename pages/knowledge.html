@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <script>if (!localStorage.getItem('workdesk_token')) { window.location.replace('login.html'); }</script>
+  <script>if (!localStorage.getItem('workdesk_token')) { window.location.replace('/pages/login.html'); }</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WorkDesk — Engagement</title>
+  <title>WorkDesk — Knowledge Base</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
   <style>
     .coming-soon-wrapper {
       display: flex;
@@ -147,7 +147,7 @@
         <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
         <span class="nav-label">Timeline</span>
       </li>
-      <li class="active" role="listitem" onclick="window.location.href='engagement.html'" data-tooltip="Engagement">
+      <li role="listitem" onclick="window.location.href='engagement.html'" data-tooltip="Engagement">
         <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
         <span class="nav-label">Engagement</span>
       </li>
@@ -162,7 +162,7 @@
         <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
         <span class="nav-label">AI Assistant</span>
       </li>
-      <li role="listitem" onclick="window.location.href='knowledge.html'" data-tooltip="Knowledge Base">
+      <li class="active" role="listitem" onclick="window.location.href='knowledge.html'" data-tooltip="Knowledge Base">
         <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
         <span class="nav-label">Knowledge Base</span>
       </li>
@@ -202,7 +202,7 @@
         <button class="topbar-menu-btn" id="menuToggle" aria-label="Toggle menu">
           <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
-        <h1 class="topbar-title">Engagement</h1>
+        <h1 class="topbar-title">Knowledge Base</h1>
       </div>
       <div class="topbar-right">
         <button class="topbar-icon-btn" aria-label="Messages" onclick="window.location.href='messaging.html'" style="position:relative;">
@@ -221,11 +221,11 @@
           Coming Soon
         </div>
         <div class="coming-soon-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
         </div>
-        <h2 class="coming-soon-title">Engagement</h2>
-        <p class="coming-soon-desc">Measure and improve employee satisfaction, pulse surveys, and culture.</p>
-        <p class="coming-soon-note">Employee engagement tools including pulse surveys, recognition badges, mood tracking, and culture analytics are coming soon.</p>
+        <h2 class="coming-soon-title">Knowledge Base</h2>
+        <p class="coming-soon-desc">Centralized HR policies, guides, FAQs, and company documentation.</p>
+        <p class="coming-soon-note">Knowledge base with searchable HR policies, onboarding guides, FAQ articles, and a collaborative wiki is coming soon.</p>
         <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
           <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           Back to Dashboard
@@ -235,8 +235,8 @@
   </div>
 </div>
 
-<script src="assets/js/confirm-dialog.js"></script>
-<script src="auth.js"></script>
+<script src="/assets/js/confirm-dialog.js"></script>
+<script src="/middleware/auth.js"></script>
 <script>
   document.getElementById('menuToggle').addEventListener('click', () => {
     document.getElementById('sidebar').classList.toggle('collapsed');
