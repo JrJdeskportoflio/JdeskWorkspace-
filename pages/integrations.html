@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <script>if (!localStorage.getItem('workdesk_token')) { window.location.replace('login.html'); }</script>
+  <script>if (!localStorage.getItem('workdesk_token')) { window.location.replace('/pages/login.html'); }</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WorkDesk — Projects</title>
+  <title>WorkDesk — Integrations</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
   <style>
     .coming-soon-wrapper {
       display: flex;
@@ -131,7 +131,7 @@
         <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
         <span class="nav-label">Documents</span>
       </li>
-      <li class="active" role="listitem" onclick="window.location.href='projects.html'" data-tooltip="Projects">
+      <li role="listitem" onclick="window.location.href='projects.html'" data-tooltip="Projects">
         <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
         <span class="nav-label">Projects</span>
       </li>
@@ -169,7 +169,7 @@
     </ul>
     <span class="sidebar-section-label">System</span>
     <ul class="sidebar-menu" role="list">
-      <li role="listitem" onclick="window.location.href='integrations.html'" data-tooltip="Integrations">
+      <li class="active" role="listitem" onclick="window.location.href='integrations.html'" data-tooltip="Integrations">
         <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
         <span class="nav-label">Integrations</span>
       </li>
@@ -202,7 +202,7 @@
         <button class="topbar-menu-btn" id="menuToggle" aria-label="Toggle menu">
           <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
-        <h1 class="topbar-title">Projects</h1>
+        <h1 class="topbar-title">Integrations</h1>
       </div>
       <div class="topbar-right">
         <button class="topbar-icon-btn" aria-label="Messages" onclick="window.location.href='messaging.html'" style="position:relative;">
@@ -221,11 +221,11 @@
           Coming Soon
         </div>
         <div class="coming-soon-icon">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
         </div>
-        <h2 class="coming-soon-title">Projects</h2>
-        <p class="coming-soon-desc">Manage and track team projects, milestones, and deliverables.</p>
-        <p class="coming-soon-note">Project management tools including task boards, milestones, resource planning, and team collaboration are coming soon.</p>
+        <h2 class="coming-soon-title">Integrations</h2>
+        <p class="coming-soon-desc">Connect WorkDesk with your existing tools and third-party services.</p>
+        <p class="coming-soon-note">Integration marketplace for payroll providers, HRIS connectors, SSO, Slack, Microsoft Teams, Zoom, and more is coming soon.</p>
         <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
           <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           Back to Dashboard
@@ -235,8 +235,8 @@
   </div>
 </div>
 
-<script src="assets/js/confirm-dialog.js"></script>
-<script src="auth.js"></script>
+<script src="/assets/js/confirm-dialog.js"></script>
+<script src="/middleware/auth.js"></script>
 <script>
   document.getElementById('menuToggle').addEventListener('click', () => {
     document.getElementById('sidebar').classList.toggle('collapsed');

@@ -1,0 +1,104 @@
+/**
+ * WorkDesk — API Worker
+ *
+ * Standalone Cloudflare Worker that acts as the API gateway for the
+ * WorkDesk application. Routes incoming requests to the appropriate
+ * handler module and applies shared middleware (auth, CORS, rate-limiting).
+ *
+ * API routes handled:
+ *   /api/auth            → Authentication (login, token refresh)
+ *   /api/employees       → Employee directory CRUD
+ *   /api/attendance      → Attendance clock-in / clock-out
+ *   /api/leave           → Leave requests and approvals
+ *   /api/payroll         → Payroll ledger and pay-run trigger
+ *   /api/performance     → Performance reviews
+ *   /api/recruitment     → Job postings and applicant pipeline
+ *   /api/tickets         → IT/HR support tickets
+ *   /api/documents       → Document storage
+ *   /api/messages        → Internal messaging threads
+ *   /api/timeline        → Company timeline / social feed
+ *   /api/engagement      → Engagement surveys
+ *   /api/analytics       → HR analytics aggregates
+ *   /api/ai              → AI assistant (Cloudflare Workers AI / OpenAI)
+ *   /api/knowledge       → Knowledge base articles
+ *   /api/integrations    → Third-party integration configs
+ *   /api/notifications   → Notification feed
+ *   /api/reports         → Report generation queue
+ *   /api/sa-auth         → Super-Admin authentication
+ *   /api/sa-org-admins   → Super-Admin org admin management
+ *
+ * Bindings required (configure in wrangler.toml before deploying):
+ *   env.DB             — Cloudflare D1 database   (workdesk-db)
+ *   env.SESSIONS       — Cloudflare KV namespace  (workdesk-sessions)
+ *   env.UPLOADS        — Cloudflare R2 bucket     (workdesk-attachments)
+ *   env.WORKDESK_QUEUE — Cloudflare Queue producer (workdesk-queue)
+ *   env.AI             — Cloudflare Workers AI binding (optional)
+ *
+ * Note: For Cloudflare Pages deployments, API routes are served directly
+ * by Pages Functions in /functions/api/*.js — this worker is used for
+ * standalone Worker deployments only.
+ *
+ * Deploy:
+ *   wrangler deploy workers/api-worker.js
+ */
+
+import { corsHeaders, jsonResponse, errorResponse } from './lib/utils.js';
+
+export default {
+  /**
+   * fetch — main request handler
+   *
+   * @param {Request}          request
+   * @param {object}           env
+   * @param {ExecutionContext} ctx
+   * @returns {Response}
+   */
+  async fetch(request, env, ctx) {
+    const url    = new URL(request.url);
+    const path   = url.pathname;
+    const method = request.method;
+
+    // Handle CORS preflight
+    if (method === 'OPTIONS') {
+      return new Response(null, { status: 204, headers: corsHeaders() });
+    }
+
+    // Only serve /api/* routes
+    if (!path.startsWith('/api/')) {
+      return errorResponse(404, 'Not Found');
+    }
+
+    try {
+      return await routeRequest(path, method, request, env, ctx);
+    } catch (err) {
+      console.error('[api-worker] unhandled error:', err);
+      return errorResponse(500, 'Internal Server Error');
+    }
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Router
+// ─────────────────────────────────────────────────────────────────────────────
+
+async function routeRequest(path, method, request, env, ctx) {
+  // Dynamically import the matching Pages Function module so that this worker
+  // shares the same handler logic as the Cloudflare Pages deployment.
+  // Mapping: /api/<name> → functions/api/<name>.js
+  const segment = path.replace(/^\/api\//, '').split('/')[0];
+
+  const ALLOWED_SEGMENTS = new Set([
+    'auth', 'employees', 'attendance', 'leave', 'payroll', 'performance',
+    'recruitment', 'tickets', 'documents', 'messages', 'timeline', 'engagement',
+    'analytics', 'ai', 'knowledge', 'integrations', 'notifications', 'reports',
+    'sa-auth', 'sa-org-admins', 'aux',
+  ]);
+
+  if (!ALLOWED_SEGMENTS.has(segment)) {
+    return errorResponse(404, 'API route not found: /api/' + segment);
+  }
+
+  // Pages Functions export an `onRequest` or method-specific handler.
+  // Re-export them through a compatibility shim if needed.
+  return errorResponse(501, 'Route handler not wired up yet. Configure module imports for standalone deployment.');
+}

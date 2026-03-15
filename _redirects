@@ -3,3 +3,26 @@
 /sa-portal.html / 301
 /sa-dashboard.html / 301
 /api/sa-auth / 301
+
+# ── Legacy HTML path redirects ────────────────────────────────
+# HTML pages were moved from the root to /pages/.
+# These redirects preserve old bookmarks and links.
+/login.html              /pages/login.html              301
+/dashboard.html          /pages/dashboard.html          301
+/employees.html          /pages/employees.html          301
+/attendance.html         /pages/attendance.html         301
+/leave.html              /pages/leave.html              301
+/payroll.html            /pages/payroll.html            301
+/performance.html        /pages/performance.html        301
+/recruitment.html        /pages/recruitment.html        301
+/tickets.html            /pages/tickets.html            301
+/documents.html          /pages/documents.html          301
+/projects.html           /pages/projects.html           301
+/messaging.html          /pages/messaging.html          301
+/timeline.html           /pages/timeline.html           301
+/engagement.html         /pages/engagement.html         301
+/analytics.html          /pages/analytics.html          301
+/ai-assistant.html       /pages/ai-assistant.html       301
+/knowledge.html          /pages/knowledge.html          301
+/integrations.html       /pages/integrations.html       301
+/settings.html           /pages/settings.html           301

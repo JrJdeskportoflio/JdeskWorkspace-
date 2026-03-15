@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <script>if (!localStorage.getItem('workdesk_token')) { window.location.replace('login.html'); }</script>
+  <script>if (!localStorage.getItem('workdesk_token')) { window.location.replace('/pages/login.html'); }</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WorkDesk — Ticketing</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
   <style>
     /* ── Tables ── */
     .data-table { width:100%; border-collapse:collapse; font-size:13px; }
@@ -629,8 +629,8 @@
 <!-- ===== TOAST CONTAINER ===== -->
 <div class="toast-container" id="toastContainer"></div>
 
-<script src="assets/js/confirm-dialog.js"></script>
-<script src="auth.js"></script>
+<script src="/assets/js/confirm-dialog.js"></script>
+<script src="/middleware/auth.js"></script>
 <script>
 // ─── State ───────────────────────────────────────────────────────────
 let tickets = [
@@ -1090,7 +1090,7 @@ updateStats();
 // Show a welcome notification after load
 setTimeout(() => showToast('2 tickets breaching SLA soon.', 'warn'), 1200);
 </script>
-<script src="assets/js/notifications.js"></script>
-<script src="auth.js"></script>
+<script src="/assets/js/notifications.js"></script>
+<script src="/middleware/auth.js"></script>
 </body>
 </html>

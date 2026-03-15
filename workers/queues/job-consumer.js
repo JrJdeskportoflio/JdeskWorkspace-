@@ -152,7 +152,7 @@ async function handlePayrollRun(body, env) {
       .prepare(
         'INSERT OR IGNORE INTO notifications (id, user_token, type, text, href, unread, created_at) VALUES (?,?,?,?,?,1,?)',
       )
-      .bind(notifId, token, 'payroll', 'Payroll run for ' + period + ' completed. ' + employees.length + ' employees processed.', '/payroll.html', now)
+      .bind(notifId, token, 'payroll', 'Payroll run for ' + period + ' completed. ' + employees.length + ' employees processed.', '/pages/payroll.html', now)
       .run();
   }
 
