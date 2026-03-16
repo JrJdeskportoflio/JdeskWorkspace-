@@ -58,6 +58,7 @@ not_found_handling = "single-page-application"
 #   functions/api/knowledge.js     → GET/POST/PUT/DELETE /api/knowledge
 #   functions/api/integrations.js  → GET/POST/PUT/DELETE /api/integrations
 #   functions/api/reports.js        → GET/POST /api/reports
+#   functions/api/sa-auth.js        → POST/GET /api/sa-auth                    (SA login + token verify)
 #   functions/api/sa-org-admins.js  → GET/POST/PUT/DELETE /api/sa-org-admins   (SA auth required)
 #   functions/api/sa-config-check.js→ GET /api/sa-config-check                (SA auth required)
 #
@@ -135,25 +136,12 @@ not_found_handling = "single-page-application"
 # Secrets (set via CLI, never commit):
 #   wrangler secret put OPENAI_API_KEY    # optional: external LLM for AI assistant
 #
-# Super-Admin secrets (required for /api/sa-org-admins on this project).
-# These must match the SA credentials set on the Super Admin Panel project.
+# Super-Admin secrets (required for /api/sa-auth and /api/sa-org-admins).
 # Run these commands and enter each value when prompted:
 #   wrangler secret put SA_USERNAME     --name workdesk-worker
 #   wrangler secret put SA_SECURITY_KEY --name workdesk-worker
 #   wrangler secret put SA_PASSWORD     --name workdesk-worker
 #
-# ⚠ IMPORTANT — TWO PROJECTS, SAME SECRETS:
-# This is the main app (workdesk-worker). The Super Admin Panel is a SEPARATE
-# Cloudflare project (workdesk-super-admin, see super-admin/wrangler.toml).
-# The three SA secrets MUST also be set on that project with identical values.
-# Setting them only here will cause SA login to fail on the Super Admin Panel.
-#
-# Super-admin project commands (run these too if not done already):
-#   wrangler secret put SA_USERNAME     --project-name workdesk-super-admin
-#   wrangler secret put SA_SECURITY_KEY --project-name workdesk-super-admin
-#   wrangler secret put SA_PASSWORD     --project-name workdesk-super-admin
-#
-# Note: /api/sa-auth lives in the separate super-admin/ project, not here.
 # To verify all three are set:   wrangler secret list --name workdesk-worker
 # To re-add a deleted secret:    re-run the matching command above
 # Full guide: workers/DEPLOY.md
