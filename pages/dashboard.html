@@ -8,7 +8,7 @@
   <title>WorkDesk — Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/styles.css" />
   <script src="/assets/js/dashboard.js" defer></script>
   <style>
@@ -1362,22 +1362,30 @@
 (function(){
   'use strict';
 
-  var MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var MONTHS_LONG  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   var MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var DAYS_SHORT  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  var DAYS_FULL   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var DAYS_SHORT   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
-  var today = new Date();
-  var calYear  = today.getFullYear();
-  var calMonth = today.getMonth();
-  // Week offset from current week (0 = this week)
+  var today      = new Date();
   var weekOffset = 0;
 
-  // Demo events keyed by YYYY-MM-DD
+  /* ── Utility: pad number ─────────────────────────────────── */
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  /* ── Utility: escape HTML to prevent XSS ────────────────── */
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // Demo events keyed by YYYY-MM-DD (hardcoded static data, not user input)
   var calEvents = {};
   (function() {
     var y = today.getFullYear(), m = today.getMonth();
-    // Current month events
     calEvents[y + '-' + pad(m+1) + '-06'] = [{label:'Team Sync', color:'green'}];
     calEvents[y + '-' + pad(m+1) + '-' + pad(today.getDate())] = [{label:'Onboarding Session\nIntro for new hires', color:''}];
     var d2 = today.getDate() - today.getDay() + 3; // Wednesday of this week
@@ -1385,8 +1393,6 @@
       calEvents[y + '-' + pad(m+1) + '-' + pad(d2)] = [{label:'Weekly Team Sync\nDiscuss progress', color:''}];
     }
   }());
-
-  function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
   /* ── Live Clock ────────────────────────────────────────── */
   function updateClock() {
@@ -1465,7 +1471,7 @@
         // Place event in first slot if exists
         if (si === 0 && eventsForDay[0]) {
           var ev = eventsForDay[0];
-          html += '<div class="wg-event' + (ev.color ? ' ' + ev.color : '') + '">' + (ev.label || '') + '</div>';
+          html += '<div class="wg-event' + (ev.color ? ' ' + escHtml(ev.color) : '') + '">' + escHtml(ev.label || '') + '</div>';
         }
         html += '</div>';
       });
@@ -1566,6 +1572,8 @@
 
   /* ── Animate bar chart (bcv-bar) ───────────────────────── */
   function animateBars() {
+    var BASE_DELAY_MS    = 100; // ms before first bar starts rising
+    var STAGGER_DELAY_MS = 60;  // ms between each consecutive bar
     var bars = document.querySelectorAll('.bcv-bar');
     bars.forEach(function(bar, idx) {
       var originalHeight = bar.style.height;
@@ -1573,7 +1581,7 @@
       setTimeout(function() {
         bar.style.transition = 'height 0.8s cubic-bezier(0.4,0,0.2,1)';
         bar.style.height = originalHeight;
-      }, 100 + idx * 60);
+      }, BASE_DELAY_MS + idx * STAGGER_DELAY_MS);
     });
   }
 

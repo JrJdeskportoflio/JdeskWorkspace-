@@ -3627,8 +3627,8 @@ hr.section-divider {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .card:hover {
-  border-color: rgba(90, 143, 123, 0.3);
-  box-shadow: 0 4px 18px rgba(90, 143, 123, 0.08);
+  border-color: rgba(var(--primary-rgb), 0.3);
+  box-shadow: 0 4px 18px rgba(var(--primary-rgb), 0.08);
 }
 
 /* ── Enhanced main-content padding ───────────────────── */
