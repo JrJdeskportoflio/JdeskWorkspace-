@@ -39,7 +39,7 @@
       position: fixed;
       inset: 0;
       z-index: -3;
-      background-image: url('/assets/login-cover.png');
+      background-image: url('/assets/login-cover-happy.png');
       background-size: cover;
       background-position: center;
     }
@@ -282,32 +282,17 @@
     .main-hero {
       flex: 1;
       display: flex;
-      align-items: center;
-      justify-content: flex-end;
+      align-items: flex-start;
+      justify-content: flex-start;
       padding-left: 5%;
       padding-right: 28px;
+      padding-top: 48px;
       min-height: 0;
     }
 
-    /* Glass hero content panel */
+    /* Hero content panel — no glass card */
     .hero-content {
       max-width: 600px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(20px) saturate(140%);
-      -webkit-backdrop-filter: blur(20px) saturate(140%);
-      border: 1px solid rgba(255, 255, 255, 0.20);
-      border-radius: 20px;
-      padding: 40px 44px;
-      box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.28),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.08);
-      animation: glassEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-
-    @keyframes glassEntrance {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
     }
 
     .hero-content h1 {
@@ -336,14 +321,7 @@
       padding-left: 12px;
     }
 
-    .fade-cycle { animation: fadeCycle 4s infinite; }
-
-    @keyframes fadeCycle {
-      0%, 100% { opacity: 0; transform: translateY(5px); }
-      10%, 90%  { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Motivational quote box — 3D glass shard ─────── */
+    /* ── Motivational quote box ─────── */
     .hero-quote-box {
       background: rgba(255, 255, 255, 0.10);
       backdrop-filter: blur(14px) saturate(130%);
@@ -371,12 +349,6 @@
       font-weight: 700;
       color: #a8d8c8;
     }
-
-    @keyframes qFadeIn  { from { opacity: 0; transform: translateY(6px);  } to { opacity: 1; transform: translateY(0); } }
-    @keyframes qFadeOut { from { opacity: 1; transform: translateY(0);  } to { opacity: 0; transform: translateY(-6px); } }
-
-    .hero-quote-text.fade-in  { animation: qFadeIn  0.5s ease forwards; }
-    .hero-quote-text.fade-out { animation: qFadeOut 0.4s ease forwards; }
 
     /* ======= SECURITY FOOTER ======= */
     .security-footer {
@@ -527,12 +499,6 @@
       }
     }
 
-    /* ── Accessibility: respect reduced-motion preference ─────── */
-    @media (prefers-reduced-motion: reduce) {
-      .hero-content      { animation: none; }
-      .fade-cycle        { animation: none; }
-      .hero-quote-text   { animation: none !important; }
-    }
   </style>
 </head>
 <body>
@@ -554,13 +520,13 @@
 
       <div class="animated-sub">
         Driven by
-        <span id="textRotator" class="rotator-text fade-cycle">Performance Analytics</span>
+        <span class="rotator-text">Global Recruitment</span>
       </div>
 
-      <!-- Rotating motivational quote -->
+      <!-- Motivational quote -->
       <div class="hero-quote-box">
-        <p class="hero-quote-text" id="heroQuoteText"></p>
-        <span class="hero-quote-author" id="heroQuoteAuthor"></span>
+        <p class="hero-quote-text">&ldquo;Hard work beats talent when talent doesn&rsquo;t work hard.&rdquo;</p>
+        <span class="hero-quote-author">&mdash; Tim Notke</span>
       </div>
     </div>
   </main>
@@ -692,69 +658,6 @@
   <script>
     // ── Dynamic copyright year ────────────────────────────────────────────────
     document.getElementById('copyrightYear').textContent = new Date().getFullYear();
-
-    // ── Role text rotator ─────────────────────────────────────────────────────
-    var roles = ['Performance Analytics', 'Global Recruitment', 'Real-time Attendance', 'Integrated Payroll', 'Strategic Reporting'];
-    var roleIndex = 0;
-    var rotatorEl = document.getElementById('textRotator');
-
-    setInterval(function () {
-      roleIndex = (roleIndex + 1) % roles.length;
-      rotatorEl.classList.remove('fade-cycle');
-      void rotatorEl.offsetWidth; // force reflow so CSS animation restarts
-      rotatorEl.textContent = roles[roleIndex];
-      rotatorEl.classList.add('fade-cycle');
-    }, 4000);
-
-    // ── Motivational quotes (rotate every 20 min, synced to clock) ────────────
-    var QUOTES = [
-      { text: 'The only way to do great work is to love what you do.',                               author: 'Steve Jobs'          },
-      { text: 'Success is not the key to happiness. Happiness is the key to success.',               author: 'Albert Schweitzer'   },
-      { text: 'Believe you can and you\u2019re halfway there.',                                       author: 'Theodore Roosevelt'  },
-      { text: 'Hard work beats talent when talent doesn\u2019t work hard.',                          author: 'Tim Notke'           },
-      { text: 'The future depends on what you do today.',                                             author: 'Mahatma Gandhi'      },
-      { text: 'Don\u2019t watch the clock; do what it does. Keep going.',                            author: 'Sam Levenson'        },
-      { text: 'Coming together is a beginning, staying together is progress, and working together is success.', author: 'Henry Ford' },
-      { text: 'Excellence is not a destination but a continuous journey that never ends.',            author: 'Brian Tracy'         },
-      { text: 'Teamwork makes the dream work.',                                                       author: 'John C. Maxwell'     },
-      { text: 'Your attitude, not your aptitude, will determine your altitude.',                     author: 'Zig Ziglar'          }
-    ];
-
-    var QUOTE_INTERVAL_MS = 20 * 60 * 1000;
-    var quoteIndex = Math.floor(Date.now() / QUOTE_INTERVAL_MS) % QUOTES.length;
-
-    function renderHeroQuote(idx, animated) {
-      var textEl   = document.getElementById('heroQuoteText');
-      var authorEl = document.getElementById('heroQuoteAuthor');
-      if (!textEl) return;
-      var q = QUOTES[idx];
-      if (!animated) {
-        textEl.textContent   = '\u201C' + q.text + '\u201D';
-        authorEl.textContent = '\u2014 ' + q.author;
-        return;
-      }
-      textEl.classList.remove('fade-in');
-      textEl.classList.add('fade-out');
-      setTimeout(function () {
-        textEl.textContent   = '\u201C' + q.text + '\u201D';
-        authorEl.textContent = '\u2014 ' + q.author;
-        textEl.classList.remove('fade-out');
-        textEl.classList.add('fade-in');
-        setTimeout(function () { textEl.classList.remove('fade-in'); }, 600);
-      }, 400);
-    }
-
-    renderHeroQuote(quoteIndex, false);
-
-    var msUntilNextSlot = QUOTE_INTERVAL_MS - (Date.now() % QUOTE_INTERVAL_MS);
-    setTimeout(function () {
-      quoteIndex = (quoteIndex + 1) % QUOTES.length;
-      renderHeroQuote(quoteIndex, true);
-      setInterval(function () {
-        quoteIndex = (quoteIndex + 1) % QUOTES.length;
-        renderHeroQuote(quoteIndex, true);
-      }, QUOTE_INTERVAL_MS);
-    }, msUntilNextSlot);
 
     // ── Toast helper ─────────────────────────────────────────────────────────
     function showToast(msg, duration) {
