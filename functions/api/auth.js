@@ -52,9 +52,14 @@ export async function onRequest(context) {
       return diff === 0;
     }
 
-    // Fall back to built-in demo credentials when env vars are not configured.
-    // Override these by setting DEMO_ORG_ID, DEMO_EMPLOYEE_ID, and DEMO_PASSWORD
-    // as Cloudflare Pages environment variables (never commit real credentials).
+    // Resolve credentials: use env vars when configured, fall back to built-in
+    // demo values so the app works out-of-the-box for evaluation/staging.
+    //
+    // ⚠️  PRODUCTION WARNING: Replace all three env vars (DEMO_ORG_ID,
+    //     DEMO_EMPLOYEE_ID, DEMO_PASSWORD) with strong, unique values in your
+    //     Cloudflare Pages project settings before handling real user data.
+    //     The built-in defaults are public knowledge and must not be used in
+    //     a live deployment with real employees or sensitive information.
     const demoOrgId      = env.DEMO_ORG_ID      || 'DEMO';
     const demoEmployeeId = env.DEMO_EMPLOYEE_ID  || 'EMP001';
     const demoPassword   = env.DEMO_PASSWORD     || 'WorkDesk@2025';
