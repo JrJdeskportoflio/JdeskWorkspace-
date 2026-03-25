@@ -32,7 +32,7 @@ If you connected your repository under **Workers & Pages → Create → Worker �
 | **Root directory**        | `/`                    |
 | **Production branch**     | `main`                 |
 
-The `wrangler.jsonc` in the repository root already configures the Worker to serve static assets, so the default deploy command (`npx wrangler deploy`) is correct.
+The `wrangler.jsonc` in the repository root already configures the Worker to serve static assets, so `npx wrangler deploy` (Cloudflare's pre-filled deploy command) is correct — do not change it.
 
 ---
 
