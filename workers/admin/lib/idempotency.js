@@ -71,6 +71,7 @@ export async function storeIdempotency(db, key, method, path, statusCode, respon
  */
 export async function purgeExpiredIdempotency(db) {
   await db
-    .prepare('DELETE FROM idempotency_store WHERE expires_at < ?')    .bind(new Date().toISOString())
+    .prepare('DELETE FROM idempotency_store WHERE expires_at < ?')
+    .bind(new Date().toISOString())
     .run();
 }
